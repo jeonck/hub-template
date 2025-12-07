@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시스템 설정 - 정보시스템 감리 허브</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html">
+                <i class="fas fa-shield-alt me-2"></i>정보시스템 감리 허브
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../index.html"><i class="fas fa-home me-1"></i>대시보드</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../checklists/checklists.html"><i class="fas fa-clipboard-list me-1"></i>감리 체크리스트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../frameworks/frameworks.html"><i class="fas fa-layer-group me-1"></i>컴플라이언스 프레임워크</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/templates.html"><i class="fas fa-file-alt me-1"></i>감리 템플릿</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../documents/documents.html"><i class="fas fa-folder-open me-1"></i>문서 저장소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../reports/reports.html"><i class="fas fa-chart-bar me-1"></i>보고서</a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle active" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog me-1"></i>관리
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="users.html">사용자 관리</a></li>
+                            <li><a class="dropdown-item active" href="settings.html">시스템 설정</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1><i class="fas fa-cog me-2 text-primary"></i>시스템 설정</h1>
+                <p class="lead">정보시스템 감리 허브 시스템의 전반적인 설정을 관리하세요.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">설정 메뉴</h5>
+                    </div>
+                    <div class="list-group list-group-flush" id="settings-tabs">
+                        <a href="#general" class="list-group-item list-group-item-action active" data-bs-toggle="list">일반 설정</a>
+                        <a href="#security" class="list-group-item list-group-item-action" data-bs-toggle="list">보안 설정</a>
+                        <a href="#notifications" class="list-group-item list-group-item-action" data-bs-toggle="list">알림 설정</a>
+                        <a href="#integrations" class="list-group-item list-group-item-action" data-bs-toggle="list">연계 설정</a>
+                        <a href="#backup" class="list-group-item list-group-item-action" data-bs-toggle="list">백업 설정</a>
+                        <a href="#compliance" class="list-group-item list-group-item-action" data-bs-toggle="list">컴플라이언스</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <!-- General Settings -->
+                    <div class="tab-pane fade show active" id="general">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-sliders-h me-2"></i>일반 설정</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="generalSettingsForm">
+                                    <div class="mb-3">
+                                        <label for="systemName" class="form-label">시스템 이름</label>
+                                        <input type="text" class="form-control" id="systemName" value="정보시스템 감리 허브">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="systemDescription" class="form-label">시스템 설명</label>
+                                        <textarea class="form-control" id="systemDescription" rows="3">정보시스템 감리 업무를 종합 지원하는 통합 플랫폼</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="timezone" class="form-label">시간대</label>
+                                        <select class="form-select" id="timezone">
+                                            <option value="UTC+9" selected>(GMT+09:00) 서울, 대한민국</option>
+                                            <option value="UTC+0">(GMT+00:00) London, UK</option>
+                                            <option value="UTC-5">(GMT-05:00) New York, USA</option>
+                                            <option value="UTC+1">(GMT+01:00) Berlin, Germany</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="language" class="form-label">언어</label>
+                                        <select class="form-select" id="language">
+                                            <option value="ko" selected>한국어</option>
+                                            <option value="en">English</option>
+                                            <option value="ja">日本語</option>
+                                            <option value="zh">中文</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="dateFormat" class="form-label">날짜 형식</label>
+                                        <select class="form-select" id="dateFormat">
+                                            <option value="YYYY.MM.DD" selected>YYYY.MM.DD</option>
+                                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="saveGeneralSettings">저장</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="tab-pane fade" id="security">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>보안 설정</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="securitySettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">세션 설정</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="sessionTimeout" class="form-label">세션 시간 (분)</label>
+                                                <input type="number" class="form-control" id="sessionTimeout" value="30">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="maxLoginAttempts" class="form-label">최대 로그인 시도</label>
+                                                <input type="number" class="form-control" id="maxLoginAttempts" value="5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">비밀번호 정책</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="passwordComplexity" checked>
+                                            <label class="form-check-label" for="passwordComplexity">
+                                                복잡성 요구 (특수문자, 숫자, 대문자 포함)
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="minPasswordLength" class="form-label">최소 비밀번호 길이</label>
+                                                <input type="number" class="form-control" id="minPasswordLength" value="8">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="passwordExpiry" class="form-label">비밀번호 유효 기간 (일)</label>
+                                                <input type="number" class="form-control" id="passwordExpiry" value="90">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">로그 설정</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="auditLogging" checked>
+                                            <label class="form-check-label" for="auditLogging">
+                                                감리 로그 활성화
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="loginLogging" checked>
+                                            <label class="form-check-label" for="loginLogging">
+                                                로그인 로그 기록
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="dataAccessLogging">
+                                            <label class="form-check-label" for="dataAccessLogging">
+                                                데이터 접근 로그 기록
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary" id="saveSecuritySettings">저장</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Settings -->
+                    <div class="tab-pane fade" id="notifications">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-bell me-2"></i>알림 설정</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="notificationSettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">이메일 알림</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="emailAuditCompletion" checked>
+                                            <label class="form-check-label" for="emailAuditCompletion">
+                                                감리 완료 알림
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="emailNewIssues" checked>
+                                            <label class="form-check-label" for="emailNewIssues">
+                                                신규 이슈 감지 시 알림
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="emailReportDue">
+                                            <label class="form-check-label" for="emailReportDue">
+                                                보고서 제출 마감일 알림
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">푸시 알림</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="pushAuditAssignments" checked>
+                                            <label class="form-check-label" for="pushAuditAssignments">
+                                                감리 과제 할당 알림
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="pushSystemUpdates">
+                                            <label class="form-check-label" for="pushSystemUpdates">
+                                                시스템 업데이트 알림
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="notificationEmail" class="form-label">기본 알림 이메일</label>
+                                        <input type="email" class="form-control" id="notificationEmail" value="admin@company.com">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">알림 시간대</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="notificationStart" class="form-label">시작 시간</label>
+                                                <input type="time" class="form-control" id="notificationStart" value="09:00">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="notificationEnd" class="form-label">종료 시간</label>
+                                                <input type="time" class="form-control" id="notificationEnd" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary" id="saveNotificationSettings">저장</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrations Settings -->
+                    <div class="tab-pane fade" id="integrations">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-plug me-2"></i>연계 설정</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="integrationSettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">감리 도구 연계</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="integrationVulnerabilityScanner">
+                                            <label class="form-check-label" for="integrationVulnerabilityScanner">
+                                                취약점 스캐너 연계
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="integrationSiem" checked>
+                                            <label class="form-check-label" for="integrationSiem">
+                                                SIEM 시스템 연계
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="integrationIdm">
+                                            <label class="form-check-label" for="integrationIdm">
+                                                ID 관리 시스템 연계
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="siemEndpoint" class="form-label">SIEM 연결 정보</label>
+                                        <input type="text" class="form-control" id="siemEndpoint" value="https://siem.company.com/api/v1" placeholder="SIEM API 엔드포인트 URL">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="siemApiKey" class="form-label">API 키</label>
+                                        <input type="password" class="form-control" id="siemApiKey" value="••••••••••••••••" placeholder="SIEM API 키">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">보고서 연계</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="integrationReportFormat">
+                                            <label class="form-check-label" for="integrationReportFormat">
+                                                표준 보고서 형식 연계
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="integrationReportDelivery">
+                                            <label class="form-check-label" for="integrationReportDelivery">
+                                                보고서 자동 전송
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary" id="saveIntegrationSettings">저장</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backup Settings -->
+                    <div class="tab-pane fade" id="backup">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-database me-2"></i>백업 설정</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="backupSettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">백업 스케줄</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="backupFrequency" class="form-label">백업 빈도</label>
+                                                <select class="form-select" id="backupFrequency">
+                                                    <option value="daily" selected>일일</option>
+                                                    <option value="weekly">주간</option>
+                                                    <option value="monthly">월간</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="backupTime" class="form-label">백업 시간</label>
+                                                <input type="time" class="form-control" id="backupTime" value="02:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="backupLocation" class="form-label">백업 위치</label>
+                                        <input type="text" class="form-control" id="backupLocation" value="/backup/it-audit-hub" placeholder="백업 파일 저장 위치">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="retentionPeriod" class="form-label">보존 기간 (일)</label>
+                                        <input type="number" class="form-control" id="retentionPeriod" value="365">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">백업 알림</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="backupNotification" checked>
+                                            <label class="form-check-label" for="backupNotification">
+                                                백업 성공/실패 알림
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary me-2" id="saveBackupSettings">저장</button>
+                                    <button type="button" class="btn btn-outline-primary" id="manualBackup">수동 백업 실행</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compliance Settings -->
+                    <div class="tab-pane fade" id="compliance">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-gavel me-2"></i>컴플라이언스 설정</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="complianceSettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">적용 프레임워크</label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="frameworkSox" checked>
+                                            <label class="form-check-label" for="frameworkSox">
+                                                SOX (Sarbanes-Oxley Act)
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="frameworkIso27001" checked>
+                                            <label class="form-check-label" for="frameworkIso27001">
+                                                ISO 27001/27002
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="frameworkNist" checked>
+                                            <label class="form-check-label" for="frameworkNist">
+                                                NIST Cybersecurity Framework
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="frameworkPciDss">
+                                            <label class="form-check-label" for="frameworkPciDss">
+                                                PCI DSS
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="frameworkHipaa">
+                                            <label class="form-check-label" for="frameworkHipaa">
+                                                HIPAA
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="complianceReportingFreq" class="form-label">컴플라이언스 보고 빈도</label>
+                                        <select class="form-select" id="complianceReportingFreq">
+                                            <option value="monthly" selected>월간</option>
+                                            <option value="quarterly">분기별</option>
+                                            <option value="annually">연간</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">감리 일정</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="complianceAuditStart" class="form-label">감리 시작일</label>
+                                                <input type="date" class="form-control" id="complianceAuditStart" value="2025-04-01">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="complianceAuditEnd" class="form-label">감리 종료일</label>
+                                                <input type="date" class="form-control" id="complianceAuditEnd" value="2025-04-30">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="complianceOfficer" class="form-label">컴플라이언스 담당자</label>
+                                        <input type="text" class="form-control" id="complianceOfficer" value="김보안">
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary" id="saveComplianceSettings">저장</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>정보시스템 감리 허브</h5>
+                    <p>정보시스템 감리 업무를 종합 지원하는 통합 플랫폼</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>© 2025 정보시스템 감리 허브. All rights reserved.</p>
+                    <p>문의: audit-support@example.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // Initialize tab functionality
+        document.querySelectorAll('#settings-tabs a').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('#settings-tabs a').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
+        });
+        
+        // Save settings functions
+        document.getElementById('saveGeneralSettings').addEventListener('click', function() {
+            alert('일반 설정이 저장되었습니다.');
+            console.log('General settings saved');
+        });
+        
+        document.getElementById('saveSecuritySettings').addEventListener('click', function() {
+            alert('보안 설정이 저장되었습니다.');
+            console.log('Security settings saved');
+        });
+        
+        document.getElementById('saveNotificationSettings').addEventListener('click', function() {
+            alert('알림 설정이 저장되었습니다.');
+            console.log('Notification settings saved');
+        });
+        
+        document.getElementById('saveIntegrationSettings').addEventListener('click', function() {
+            alert('연계 설정이 저장되었습니다.');
+            console.log('Integration settings saved');
+        });
+        
+        document.getElementById('saveBackupSettings').addEventListener('click', function() {
+            alert('백업 설정이 저장되었습니다.');
+            console.log('Backup settings saved');
+        });
+        
+        document.getElementById('saveComplianceSettings').addEventListener('click', function() {
+            alert('컴플라이언스 설정이 저장되었습니다.');
+            console.log('Compliance settings saved');
+        });
+        
+        // Manual backup button
+        document.getElementById('manualBackup').addEventListener('click', function() {
+            alert('수동 백업을 시작합니다...');
+            console.log('Manual backup initiated');
+            
+            // Simulate backup process
+            setTimeout(() => {
+                alert('수동 백업이 완료되었습니다.');
+            }, 2000);
+        });
+        
+        // Settings validation
+        document.getElementById('generalSettingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+        
+        document.getElementById('securitySettingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+        
+        // Password complexity check
+        document.getElementById('minPasswordLength').addEventListener('change', function() {
+            if (parseInt(this.value) < 8) {
+                alert('비밀번호 최소 길이는 8자 이상이어야 합니다.');
+                this.value = 8;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보고서 및 대시보드 - 정보시스템 감리 허브</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html">
+                <i class="fas fa-shield-alt me-2"></i>정보시스템 감리 허브
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../index.html"><i class="fas fa-home me-1"></i>대시보드</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../checklists/checklists.html"><i class="fas fa-clipboard-list me-1"></i>감리 체크리스트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../frameworks/frameworks.html"><i class="fas fa-layer-group me-1"></i>컴플라이언스 프레임워크</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/templates.html"><i class="fas fa-file-alt me-1"></i>감리 템플릿</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../documents/documents.html"><i class="fas fa-folder-open me-1"></i>문서 저장소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="reports.html"><i class="fas fa-chart-bar me-1"></i>보고서</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog me-1"></i>관리
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../admin/users.html">사용자 관리</a></li>
+                            <li><a class="dropdown-item" href="../admin/settings.html">시스템 설정</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1><i class="fas fa-chart-bar me-2 text-primary"></i>감리 대시보드 및 보고서</h1>
+                <p class="lead">감리 활동 현황 및 결과를 시각화하여 확인하세요.</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-6">
+                <div class="card text-white bg-primary text-center">
+                    <div class="card-body">
+                        <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                        <h3>12</h3>
+                        <p class="card-text">진행 중인 감리</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card text-white bg-success text-center">
+                    <div class="card-body">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <h3>48</h3>
+                        <p class="card-text">완료된 감리</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card text-white bg-warning text-dark text-center">
+                    <div class="card-body">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                        <h3>23</h3>
+                        <p class="card-text">개선 대기 이슈</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card text-white bg-info text-center">
+                    <div class="card-body">
+                        <i class="fas fa-file-alt fa-2x mb-2"></i>
+                        <h3>156</h3>
+                        <p class="card-text">감리 문서</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <!-- Audit Status Chart -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>감리 상태 현황</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="auditStatusChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Issue Severity Chart -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>이슈 등급 분포</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="issueSeverityChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports and Analytics -->
+        <div class="row">
+            <!-- Recent Audit Activity -->
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>최근 감리 활동</h5>
+                        <button class="btn btn-sm btn-outline-primary">전체 보기</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>감리 항목</th>
+                                        <th>담당자</th>
+                                        <th>상태</th>
+                                        <th>완료일</th>
+                                        <th>이슈 수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>사용자 접근 제어 감리</td>
+                                        <td>김민수</td>
+                                        <td><span class="badge bg-success">완료</span></td>
+                                        <td>2025.02.15</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>네트워크 보안 설정 점검</td>
+                                        <td>이지은</td>
+                                        <td><span class="badge bg-warning">진행중</span></td>
+                                        <td>2025.02.20</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>서버 보안 패치 상태</td>
+                                        <td>박준호</td>
+                                        <td><span class="badge bg-info">준비중</span></td>
+                                        <td>2025.02.25</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DB 접근 로그 분석</td>
+                                        <td>정수연</td>
+                                        <td><span class="badge bg-success">완료</span></td>
+                                        <td>2025.02.10</td>
+                                        <td>5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>보안 정책 준수 여부</td>
+                                        <td>최준서</td>
+                                        <td><span class="badge bg-warning">진행중</span></td>
+                                        <td>2025.02.18</td>
+                                        <td>1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Open Issues -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-bug me-2"></i>개선 대기 이슈</h5>
+                        <button class="btn btn-sm btn-outline-primary">전체 보기</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-start border-danger border-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">보안 패치 누락</h6>
+                                        <p class="card-text text-muted">서버 A, B에 최신 보안 패치 누락</p>
+                                        <div class="d-flex justify-content-between text-muted small">
+                                            <span><i class="fas fa-user me-1"></i>김민수</span>
+                                            <span><i class="fas fa-calendar me-1"></i>7일 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-start border-warning border-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">접근 권한 과다 부여</h6>
+                                        <p class="card-text text-muted">일부 사용자에게 필요 이상의 권한 부여</p>
+                                        <div class="d-flex justify-content-between text-muted small">
+                                            <span><i class="fas fa-user me-1"></i>이지은</span>
+                                            <span><i class="fas fa-calendar me-1"></i>3일 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-start border-primary border-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">보안 정책 미비</h6>
+                                        <p class="card-text text-muted">신규 시스템 보안 정책 미수립</p>
+                                        <div class="d-flex justify-content-between text-muted small">
+                                            <span><i class="fas fa-user me-1"></i>박준호</span>
+                                            <span><i class="fas fa-calendar me-1"></i>1일 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-start border-success border-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">로깅 설정 미비</h6>
+                                        <p class="card-text text-muted">중요 시스템 로깅 설정 미비</p>
+                                        <div class="d-flex justify-content-between text-muted small">
+                                            <span><i class="fas fa-user me-1"></i>정수연</span>
+                                            <span><i class="fas fa-calendar me-1"></i>5일 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Reports and Actions -->
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>빠른 보고서</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary text-start">
+                                <i class="fas fa-file-pdf me-2"></i>월간 감리 현황 보고서
+                            </button>
+                            <button class="btn btn-outline-primary text-start">
+                                <i class="fas fa-file-pdf me-2"></i>이슈 트렌드 분석 보고서
+                            </button>
+                            <button class="btn btn-outline-primary text-start">
+                                <i class="fas fa-file-pdf me-2"></i>보안 성숙도 평가 보고서
+                            </button>
+                            <button class="btn btn-outline-primary text-start">
+                                <i class="fas fa-file-pdf me-2"></i>컴플라이언스 준수 현황
+                            </button>
+                            <button class="btn btn-outline-primary text-start">
+                                <i class="fas fa-file-pdf me-2"></i>감리 이력 분석 보고서
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-bell me-2"></i>알림 및 경고</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            감리 일정이 3일 남은 프로젝트가 2건 있습니다.
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            신규 보안 프레임워크 가이드가 업데이트되었습니다.
+                        </div>
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            고객 데이터 보호 감리가 정상적으로 완료되었습니다.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-filter me-2"></i>필터 옵션</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">기간</label>
+                            <select class="form-select">
+                                <option>이번 달</option>
+                                <option selected>이번 분기</option>
+                                <option>올해</option>
+                                <option>지난 6개월</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">부서</label>
+                            <select class="form-select">
+                                <option>전체</option>
+                                <option selected>IT 보안</option>
+                                <option>내부 감리</option>
+                                <option>운영</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">감리 유형</label>
+                            <select class="form-select">
+                                <option>전체</option>
+                                <option>보안 감리</option>
+                                <option>컴플라이언스 감리</option>
+                                <option>내부 감리</option>
+                                <option>외부 감리</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary w-100">
+                            <i class="fas fa-sync-alt me-1"></i>데이터 갱신
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>정보시스템 감리 허브</h5>
+                    <p>정보시스템 감리 업무를 종합 지원하는 통합 플랫폼</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>© 2025 정보시스템 감리 허브. All rights reserved.</p>
+                    <p>문의: audit-support@example.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // Initialize charts when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Audit Status Chart
+            const auditStatusCtx = document.getElementById('auditStatusChart').getContext('2d');
+            const auditStatusChart = new Chart(auditStatusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['완료', '진행중', '준비중', '지연'],
+                    datasets: [{
+                        data: [48, 12, 5, 3],
+                        backgroundColor: [
+                            '#198754', // green for completed
+                            '#ffc107', // yellow for in progress
+                            '#0dcaf0', // blue for upcoming
+                            '#dc3545'  // red for delayed
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Issue Severity Chart
+            const issueSeverityCtx = document.getElementById('issueSeverityChart').getContext('2d');
+            const issueSeverityChart = new Chart(issueSeverityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Critical', 'High', 'Medium', 'Low'],
+                    datasets: [{
+                        label: '이슈 수',
+                        data: [4, 12, 23, 31],
+                        backgroundColor: [
+                            '#dc3545', // red for critical
+                            '#fd7e14', // orange for high
+                            '#ffc107', // yellow for medium
+                            '#198754'  // green for low
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Report generation
+            document.querySelectorAll('.btn-outline-primary').forEach(button => {
+                if(button.querySelector('i.fa-file-pdf')) {
+                    button.addEventListener('click', function() {
+                        const reportName = this.textContent.trim();
+                        console.log(`Generating report: ${reportName}`);
+                        
+                        // In a real application, this would generate the actual report
+                        alert(`${reportName}을(를) 생성 중입니다...`);
+                    });
+                }
+            });
+            
+            // Filter changes
+            document.querySelectorAll('.form-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    console.log('Filter changed:', this.name || this.previousElementSibling.textContent, this.value);
+                    // In a real app, this would update the dashboard data
+                });
+            });
+            
+            // Refresh button
+            document.querySelector('.btn-primary.w-100').addEventListener('click', function() {
+                // Refresh dashboard data
+                alert('데이터를 갱신 중입니다...');
+                
+                // In a real application, this would fetch updated data from the server
+                setTimeout(() => {
+                    // Update charts with new data
+                    console.log('Dashboard data refreshed');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

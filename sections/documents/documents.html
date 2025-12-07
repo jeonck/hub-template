@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문서 저장소 - 정보시스템 감리 허브</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html">
+                <i class="fas fa-shield-alt me-2"></i>정보시스템 감리 허브
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../index.html"><i class="fas fa-home me-1"></i>대시보드</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../checklists/checklists.html"><i class="fas fa-clipboard-list me-1"></i>감리 체크리스트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../frameworks/frameworks.html"><i class="fas fa-layer-group me-1"></i>컴플라이언스 프레임워크</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../templates/templates.html"><i class="fas fa-file-alt me-1"></i>감리 템플릿</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="documents.html"><i class="fas fa-folder-open me-1"></i>문서 저장소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../reports/reports.html"><i class="fas fa-chart-bar me-1"></i>보고서</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog me-1"></i>관리
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../admin/users.html">사용자 관리</a></li>
+                            <li><a class="dropdown-item" href="../admin/settings.html">시스템 설정</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1><i class="fas fa-folder-open me-2 text-primary"></i>문서 저장소</h1>
+                <p class="lead">감리 관련 문서를 체계적으로 관리하고 검색하세요.</p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" id="document-search" placeholder="문서 검색...">
+                    <button class="btn btn-outline-secondary" type="button" id="search-btn">
+                        <i class="fas fa-filter"></i> 고급 검색
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                    <i class="fas fa-upload me-1"></i>문서 업로드
+                </button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary active" id="grid-view" title="그리드 보기">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="list-view" title="리스트 보기">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Categories -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex overflow-x-auto pb-2" style="white-space: nowrap;">
+                    <button class="btn btn-outline-primary me-2 active" data-category="all">전체</button>
+                    <button class="btn btn-outline-primary me-2" data-category="policy">정책 문서</button>
+                    <button class="btn btn-outline-primary me-2" data-category="procedure">절차 문서</button>
+                    <button class="btn btn-outline-primary me-2" data-category="report">감리 보고서</button>
+                    <button class="btn btn-outline-primary me-2" data-category="evidence">증적 자료</button>
+                    <button class="btn btn-outline-primary me-2" data-category="standard">표준 문서</button>
+                    <button class="btn btn-outline-primary me-2" data-category="training">교육 자료</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Grid View -->
+        <div id="document-grid">
+            <div class="row">
+                <!-- Document Cards -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="policy" data-tags="보안,정책,접근">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-file-contract fa-3x text-primary"></i>
+                            </div>
+                            <h6 class="card-title">보안 정책 수립 가이드라인</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>김민수
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.01.15
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-primary me-1">.pdf</span>
+                                <span class="badge bg-info">정책</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="procedure" data-tags="접근,제어,서버">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-server fa-3x text-success"></i>
+                            </div>
+                            <h6 class="card-title">서버 접근 제어 절차</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>이지은
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.02.10
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-success me-1">.docx</span>
+                                <span class="badge bg-info">절차</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="report" data-tags="감리,네트워크,보안">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-chart-line fa-3x text-warning"></i>
+                            </div>
+                            <h6 class="card-title">Q4 네트워크 보안 감리 보고서</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>박준호
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.01.20
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-warning text-dark me-1">.pdf</span>
+                                <span class="badge bg-info">감리</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="evidence" data-tags="이력,접근,감리">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-clipboard-list fa-3x text-danger"></i>
+                            </div>
+                            <h6 class="card-title">사용자 접근 이력 분석</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>정수연
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.02.05
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-danger me-1">.xlsx</span>
+                                <span class="badge bg-info">증적</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="standard" data-tags="보안,표준,ISO">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-certificate fa-3x text-info"></i>
+                            </div>
+                            <h6 class="card-title">ISO 27001 보안 표준</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>최준서
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.01.30
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-info me-1">.pdf</span>
+                                <span class="badge bg-primary">표준</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="training" data-tags="교육,보안,인식">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-graduation-cap fa-3x text-secondary"></i>
+                            </div>
+                            <h6 class="card-title">보안 인식 교육 자료</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>김다영
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.02.15
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-secondary me-1">.pptx</span>
+                                <span class="badge bg-success">교육</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="report" data-tags="취약점,감리,점검">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-bug fa-3x text-warning"></i>
+                            </div>
+                            <h6 class="card-title">취약점 진단 결과 보고서</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>이현우
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.01.25
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-warning text-dark me-1">.pdf</span>
+                                <span class="badge bg-info">감리</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 document-item" data-category="policy" data-tags="개인정보,보호,정책">
+                    <div class="card h-100 document-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-user-shield fa-3x text-primary"></i>
+                            </div>
+                            <h6 class="card-title">개인정보 보호 정책</h6>
+                            <div class="text-muted small mb-2">
+                                <i class="fas fa-user me-1"></i>박지민
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i>2025.02.01
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-primary me-1">.docx</span>
+                                <span class="badge bg-info">정책</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary" title="미리보기" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document List View (Initially Hidden) -->
+        <div id="document-list" style="display: none;">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>문서 이름</th>
+                            <th>카테고리</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                            <th>파일 형식</th>
+                            <th>크기</th>
+                            <th>작업</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="document-item" data-category="policy">
+                            <td>
+                                <i class="fas fa-file-contract text-primary me-2"></i>
+                                보안 정책 수립 가이드라인
+                            </td>
+                            <td><span class="badge bg-primary">정책 문서</span></td>
+                            <td>김민수</td>
+                            <td>2025.01.15</td>
+                            <td>.pdf</td>
+                            <td>2.4 MB</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary me-1" title="미리보기">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success me-1" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="document-item" data-category="procedure">
+                            <td>
+                                <i class="fas fa-server text-success me-2"></i>
+                                서버 접근 제어 절차
+                            </td>
+                            <td><span class="badge bg-success">절차 문서</span></td>
+                            <td>이지은</td>
+                            <td>2025.02.10</td>
+                            <td>.docx</td>
+                            <td>1.2 MB</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary me-1" title="미리보기">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success me-1" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="document-item" data-category="report">
+                            <td>
+                                <i class="fas fa-chart-line text-warning me-2"></i>
+                                Q4 네트워크 보안 감리 보고서
+                            </td>
+                            <td><span class="badge bg-warning text-dark">감리 보고서</span></td>
+                            <td>박준호</td>
+                            <td>2025.01.20</td>
+                            <td>.pdf</td>
+                            <td>5.1 MB</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary me-1" title="미리보기">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success me-1" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="document-item" data-category="evidence">
+                            <td>
+                                <i class="fas fa-clipboard-list text-danger me-2"></i>
+                                사용자 접근 이력 분석
+                            </td>
+                            <td><span class="badge bg-danger">증적 자료</span></td>
+                            <td>정수연</td>
+                            <td>2025.02.05</td>
+                            <td>.xlsx</td>
+                            <td>3.7 MB</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary me-1" title="미리보기">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-success me-1" title="다운로드">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" title="공유">
+                                    <i class="fas fa-share-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <nav aria-label="문서 페이지 네비게이션">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">이전</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">다음</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">문서 업로드</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadForm">
+                        <div class="mb-3">
+                            <label for="documentTitle" class="form-label">문서 제목</label>
+                            <input type="text" class="form-control" id="documentTitle" placeholder="문서 제목을 입력하세요" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="documentCategory" class="form-label">카테고리</label>
+                            <select class="form-select" id="documentCategory" required>
+                                <option value="">카테고리 선택</option>
+                                <option value="policy">정책 문서</option>
+                                <option value="procedure">절차 문서</option>
+                                <option value="report">감리 보고서</option>
+                                <option value="evidence">증적 자료</option>
+                                <option value="standard">표준 문서</option>
+                                <option value="training">교육 자료</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="documentTags" class="form-label">태그 (콤마로 구분)</label>
+                            <input type="text" class="form-control" id="documentTags" placeholder="예: 보안, 정책, 접근">
+                        </div>
+                        <div class="mb-3">
+                            <label for="documentDescription" class="form-label">설명</label>
+                            <textarea class="form-control" id="documentDescription" rows="3" placeholder="문서에 대한 설명을 입력하세요"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="documentFile" class="form-label">파일 업로드</label>
+                            <input class="form-control" type="file" id="documentFile" required>
+                            <div class="form-text">지원 형식: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT (최대 50MB)</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">접근 권한</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="accessPermission" id="allUsers" value="all" checked>
+                                <label class="form-check-label" for="allUsers">전체 사용자</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="accessPermission" id="deptUsers" value="dept">
+                                <label class="form-check-label" for="deptUsers">부서 내 사용자</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="accessPermission" id="specificUsers" value="specific">
+                                <label class="form-check-label" for="specificUsers">지정 사용자</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="uploadSubmitBtn">업로드</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">문서 미리보기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-4x3">
+                        <iframe src="https://docs.google.com/gview?url=https://example.com/document.pdf&embedded=true" width="100%" height="600px"></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary">다운로드</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>정보시스템 감리 허브</h5>
+                    <p>정보시스템 감리 업무를 종합 지원하는 통합 플랫폼</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>© 2025 정보시스템 감리 허브. All rights reserved.</p>
+                    <p>문의: audit-support@example.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        // View toggle
+        document.getElementById('grid-view').addEventListener('click', function() {
+            document.getElementById('document-grid').style.display = 'block';
+            document.getElementById('document-list').style.display = 'none';
+            
+            this.classList.add('active');
+            document.getElementById('list-view').classList.remove('active');
+        });
+        
+        document.getElementById('list-view').addEventListener('click', function() {
+            document.getElementById('document-grid').style.display = 'none';
+            document.getElementById('document-list').style.display = 'block';
+            
+            this.classList.add('active');
+            document.getElementById('grid-view').classList.remove('active');
+        });
+        
+        // Category filtering
+        document.querySelectorAll('[data-category]').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('[data-category]').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                
+                // Show documents based on selected category
+                document.querySelectorAll('.document-item').forEach(doc => {
+                    if (category === 'all' || doc.getAttribute('data-category') === category) {
+                        doc.style.display = 'block';
+                    } else {
+                        doc.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Document search
+        document.getElementById('document-search').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            document.querySelectorAll('.document-item').forEach(doc => {
+                const title = doc.querySelector('.card-title') ? 
+                    doc.querySelector('.card-title').textContent.toLowerCase() : 
+                    doc.querySelector('td:first-child').textContent.toLowerCase();
+                const tags = doc.getAttribute('data-tags') || '';
+                
+                if (title.includes(searchTerm) || tags.toLowerCase().includes(searchTerm)) {
+                    doc.style.display = 'block';
+                } else {
+                    doc.style.display = 'none';
+                }
+            });
+        });
+        
+        // Upload functionality
+        document.getElementById('uploadSubmitBtn').addEventListener('click', function() {
+            // In a real application, this would handle the file upload
+            const title = document.getElementById('documentTitle').value;
+            alert(`'${title}' 문서가 업로드되었습니다!`);
+            
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('uploadModal')).hide();
+            
+            // Reset form
+            document.getElementById('uploadForm').reset();
+        });
+        
+        // Document download tracking
+        document.querySelectorAll('.btn-outline-success').forEach(btn => {
+            if(btn.title === '다운로드') {
+                btn.addEventListener('click', function() {
+                    const docTitle = this.closest('.card-footer, td:last-child').parentElement
+                        .querySelector('.card-title, td:first-child')?.textContent || 
+                        this.closest('tr').querySelector('td:first-child').textContent.trim();
+                    
+                    console.log(`Downloading document: ${docTitle}`);
+                    
+                    // In a real application, this would trigger the actual download
+                    // and update the download count in the database
+                });
+            }
+        });
+    </script>
+</body>
+</html>
